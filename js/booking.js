@@ -159,6 +159,14 @@ export class BookingPortal {
 
         // Form Submit interception
         this.form.addEventListener('submit', (e) => {
+            // Honeypot anti-spam bot check
+            const honeypot = document.getElementById('honeypot-website');
+            if (honeypot && honeypot.value.trim() !== "") {
+                console.warn("Automated bot submission detected. Blocking POST request.");
+                e.preventDefault();
+                return;
+            }
+
             // All basic validation passes
             if (this.validateStep(this.currentStep)) {
                 // Submit occurs inside iframe, we transition UI instantly
