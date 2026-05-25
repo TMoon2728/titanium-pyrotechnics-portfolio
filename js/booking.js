@@ -2,15 +2,20 @@
 
 export class BookingPortal {
     constructor() {
-        // Date configurations - June 2026 defaults
-        this.currentDate = new Date(2026, 5, 1); // June 2026
+        // --- GOOGLE CALENDAR CONFIGURATION ---
+        // Replace with your Google API Key and public Google Calendar ID
+        this.googleApiKey = "AIzaSyABq1tWbg4PkMTWUNMbg8UFwqNawMqf9XA";
+        this.googleCalendarId = "fc9305b966e3e023fc052787a1a81daa02557cdcc0623f4351df620c834ed608@group.calendar.google.com";
         
-        // Mock booked dates matching workspace events
-        this.bookedEvents = {
-            '2026-06-12': 'Topeka Country Club Gala',
-            '2026-06-20': 'Lake Javaro Summer Display',
-            '2026-07-04': 'Platt County Fairgrounds Celebration'
-        };
+        // Start calendar on today's current date
+        this.currentDate = new Date(); 
+        
+        // Generate mock booked dates relative to the current month as fallback (arrays of bookings)
+        const currentYear = this.currentDate.getFullYear();
+        const currentMonthStr = String(this.currentDate.getMonth() + 1).padStart(2, '0');
+        this.bookedEvents = {};
+        this.bookedEvents[`${currentYear}-${currentMonthStr}-12`] = ['Topeka Country Club Gala'];
+        this.bookedEvents[`${currentYear}-${currentMonthStr}-20`] = ['Lake Javaro Summer Display', 'Lakeside Wedding Ceremony'];
 
         // DOM Calendar elements
         this.calMonthYear = document.getElementById('calendar-month-year');
@@ -33,6 +38,9 @@ export class BookingPortal {
 
         this.initCalendar();
         this.initFormControls();
+        
+        // Fetch events if calendar integration is configured
+        this.loadGoogleCalendarEvents();
     }
 
     /* ---------------- CALENDAR CONTROLLER ---------------- */
@@ -87,18 +95,28 @@ export class BookingPortal {
             const dateKey = `${year}-${monthStr}-${dayStr}`;
             
             // Check status against bookings
-            if (this.bookedEvents[dateKey]) {
-                dayDiv.classList.add('booked');
-                dayDiv.title = `Booked: ${this.bookedEvents[dateKey]}`;
-            } else {
-                dayDiv.classList.add('available');
+            const bookings = this.bookedEvents[dateKey] || [];
+            const count = bookings.length;
+            
+            if (count >= 2) {
+                dayDiv.classList.add('booked-full');
+                dayDiv.title = `Fully Booked (No slots remaining):\n` + bookings.map(b => `• ${b}`).join('\n');
+            } else if (count === 1) {
+                dayDiv.classList.add('booked-limited');
+                dayDiv.title = `Limited Availability (1 Show Confirmed):\n• ${bookings[0]}`;
                 
-                // Keep selection state if matched
                 if (this.selectedDateStr === dateKey) {
                     dayDiv.classList.add('selected');
                 }
+                dayDiv.addEventListener('click', () => {
+                    this.selectDate(dateKey, dayDiv);
+                });
+            } else {
+                dayDiv.classList.add('available');
                 
-                // Select date handler
+                if (this.selectedDateStr === dateKey) {
+                    dayDiv.classList.add('selected');
+                }
                 dayDiv.addEventListener('click', () => {
                     this.selectDate(dateKey, dayDiv);
                 });
@@ -234,5 +252,58 @@ export class BookingPortal {
         this.progressBar.style.width = '0%';
         this.successOverlay.classList.remove('active');
         this.renderCalendar(); // Redraw calendar to clear highlights
+    }
+
+    async loadGoogleCalendarEvents() {
+        if (this.googleApiKey === "YOUR_API_KEY_HERE" || this.googleCalendarId === "YOUR_CALENDAR_ID_HERE") {
+            console.warn("Google Calendar integration variables not set. Using mock local data fallback.");
+            return;
+        }
+
+        // Fetch events starting from 2 months ago up to 1 year in the future
+        const now = new Date();
+        const start = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+        const timeMin = start.toISOString();
+        
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(this.googleCalendarId)}/events?key=${this.googleApiKey}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=250`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Google Calendar API response error: ${response.status}`);
+            }
+            const data = await response.json();
+            
+            // Clear default mock bookings and populate with actual calendar entries (group by date)
+            this.bookedEvents = {};
+            if (data.items && data.items.length > 0) {
+                data.items.forEach(event => {
+                    let dateKey = "";
+                    if (event.start.date) {
+                        dateKey = event.start.date; // All-day events are already YYYY-MM-DD
+                    } else if (event.start.dateTime) {
+                        // Parse timed events to get the date in the local timezone
+                        const d = new Date(event.start.dateTime);
+                        const yr = d.getFullYear();
+                        const mo = String(d.getMonth() + 1).padStart(2, '0');
+                        const dy = String(d.getDate()).padStart(2, '0');
+                        dateKey = `${yr}-${mo}-${dy}`;
+                    }
+                    
+                    if (dateKey) {
+                        if (!this.bookedEvents[dateKey]) {
+                            this.bookedEvents[dateKey] = [];
+                        }
+                        this.bookedEvents[dateKey].push(event.summary || "Booked Display Slot");
+                    }
+                });
+            }
+            
+            // Redraw calendar to apply live dates
+            this.renderCalendar();
+            console.log("Google Calendar loaded successfully. Booked slots updated.");
+        } catch (error) {
+            console.error("Failed to load Google Calendar events, keeping mock fallbacks:", error);
+        }
     }
 }
