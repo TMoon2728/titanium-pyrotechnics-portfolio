@@ -1,0 +1,304 @@
+/* Pyro-Script Launch Pad Stylesheet */
+
+.launchpad-section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+    background: radial-gradient(circle at bottom, rgba(15, 82, 186, 0.08) 0%, transparent 60%);
+}
+
+.console-deck {
+    border-color: rgba(15, 82, 186, 0.3);
+    overflow: hidden;
+    margin-top: 3.5rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.console-topbar {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.console-logo {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent);
+}
+
+.console-status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-indicator.red {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+.status-indicator.yellow {
+    background-color: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+}
+
+.status-indicator.green {
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.console-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Console Panels */
+.console-panel {
+    padding: 2rem;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.console-panel:last-child {
+    border-right: none;
+}
+
+.panel-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Panel 1: Controls */
+.control-group {
+    margin-bottom: 1.75rem;
+}
+
+.switch-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.btn-switch {
+    width: 100%;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-switch:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+.btn-switch.armed {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border-color: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.audio-track-selector {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+
+.track-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+}
+
+.track-option.active {
+    background: rgba(15, 82, 186, 0.15);
+    border: 1px solid rgba(15, 82, 186, 0.3);
+}
+
+.track-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+}
+
+.track-option span {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-main);
+}
+
+.track-hint {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    line-height: 1.4;
+}
+
+/* Panel 2: Cue Fire Directory */
+.cue-matrix {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.cue-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.9rem 1.25rem;
+    color: var(--text-main);
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.cue-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.cue-btn:not(:disabled):hover {
+    background: rgba(15, 82, 186, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.1);
+}
+
+.cue-btn.fired:not(:disabled) {
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.cue-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.cue-btn.fired:not(:disabled) .cue-num {
+    color: var(--success);
+}
+
+.cue-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.auto-seq-control {
+    margin-top: auto;
+}
+
+/* Panel 3: Display Canvas */
+.visualizer-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #020305;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#launchpad-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.visualizer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 3, 5, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    z-index: 10;
+    transition: var(--transition);
+}
+
+.visualizer-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pulse-indicator {
+    font-size: 2rem;
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+    animation: pulsate 2s infinite ease-in-out;
+    margin-bottom: 1rem;
+}
+
+.visualizer-overlay p {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+@keyframes pulsate {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 18px var(--accent); }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* Responsive console adjustments */
+@media (max-width: 968px) {
+    .console-grid {
+        grid-template-columns: 1fr;
+    }
+    .console-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .console-panel:last-child {
+        border-bottom: none;
+    }
+}
