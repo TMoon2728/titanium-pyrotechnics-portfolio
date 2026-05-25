@@ -536,6 +536,100 @@ a {
     margin-top: 0.5rem;
     color: #4b5563;
 }
+/* Crew Section styling */
+.crew-section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+    background: radial-gradient(circle at top, rgba(0, 210, 255, 0.03) 0%, transparent 60%);
+}
+
+.crew-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    margin-top: 3.5rem;
+    justify-content: center;
+}
+
+.crew-card {
+    position: relative;
+    padding: 2.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.crew-badge {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.crew-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(15, 82, 186, 0.2) 0%, rgba(0, 210, 255, 0.05) 100%);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+}
+
+.crew-svg {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.crew-info h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.25rem;
+}
+
+.crew-role {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.crew-bio {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.crew-meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.crew-meta span {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
 
 /* Responsive Media Queries */
 @media (max-width: 968px) {
