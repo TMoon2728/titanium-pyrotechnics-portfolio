@@ -393,6 +393,11 @@
 
                         <!-- Form POSTs to target matching an invisible iframe to prevent redirection / CORS problems -->
                         <form id="booking-inquiry-form" method="POST" target="hidden-iframe" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfhCDNQhdsAOSP8XxsC1yQEYPKZv_OVgXylmoXY_dYpMlgNOw/formResponse">
+                            <!-- Honeypot anti-bot security field -->
+                            <div class="form-group honeypot-field" style="display:none !important;">
+                                <label for="honeypot-website">Do not fill this out if you are human</label>
+                                <input type="text" id="honeypot-website" name="website" tabindex="-1" autocomplete="off">
+                            </div>
                             
                             <!-- Step 1: Event Details -->
                             <div class="form-step active" id="form-step-1">
