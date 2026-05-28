@@ -4,7 +4,7 @@ export class BookingPortal {
     constructor() {
         // --- GOOGLE CALENDAR CONFIGURATION ---
         // Replace with your Google API Key and public Google Calendar ID
-        this.googleApiKey = "AIzaSyABq1tWbg4PkMTWUNMbg8UFwqNawMqf9XA";
+        this.googleApiKey = "AIzaSyCIgw8S6ld20A-QtplsalDRO2ZUmkxtPJQ";
         this.googleCalendarId = "fc9305b966e3e023fc052787a1a81daa02557cdcc0623f4351df620c834ed608@group.calendar.google.com";
         
         // Start calendar on today's current date
